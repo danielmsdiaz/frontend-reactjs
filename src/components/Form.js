@@ -45,11 +45,9 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
   useEffect(() => {
     if (onEdit) {
       const user = ref.current;
-
-      user.nome.value = onEdit.nome;
+      user.nome.value = onEdit.name;
       user.email.value = onEdit.email;
-      user.fone.value = onEdit.fone;
-      user.data_nascimento.value = onEdit.data_nascimento;
+      user.born_date.value = onEdit.born_date;
     }
   }, [onEdit]);
 
@@ -57,33 +55,25 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
     e.preventDefault();
 
     const user = ref.current;
-
-    if (
-      !user.nome.value ||
-      !user.email.value ||
-      !user.fone.value ||
-      !user.data_nascimento.value
-    ) {
+    if (!user.nome.value || !user.email.value || !user.born_date.value) {
       return toast.warn("Preencha todos os campos!");
     }
 
     if (onEdit) {
       await axios
-        .put("http://localhost:8800/" + onEdit.id, {
-          nome: user.nome.value,
+        .put("http://localhost:6789/api/user/" + onEdit.id, {
+          name: user.nome.value,
+          born_date: user.born_date.value,
           email: user.email.value,
-          fone: user.fone.value,
-          data_nascimento: user.data_nascimento.value,
         })
         .then(({ data }) => toast.success(data))
         .catch(({ data }) => toast.error(data));
     } else {
       await axios
-        .post("http://localhost:8800", {
-          nome: user.nome.value,
+        .post("http://localhost:6789/api/user/", {
+          name: user.nome.value,
+          born_date: user.born_date.value,
           email: user.email.value,
-          fone: user.fone.value,
-          data_nascimento: user.data_nascimento.value,
         })
         .then(({ data }) => toast.success(data))
         .catch(({ data }) => toast.error(data));
@@ -91,8 +81,7 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
 
     user.nome.value = "";
     user.email.value = "";
-    user.fone.value = "";
-    user.data_nascimento.value = "";
+    user.born_date.value = "";
 
     setOnEdit(null);
     getUsers();

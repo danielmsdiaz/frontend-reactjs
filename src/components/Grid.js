@@ -5,12 +5,12 @@ import { FaTrash, FaEdit } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 const Table = styled.table`
-  width: 100%;
+  width: 110%;
   background-color: #fff;
   padding: 20px;
   box-shadow: 0px 0px 5px #ccc;
   border-radius: 5px;
-  max-width: 1120px;
+  max-width: 1125px;
   margin: 20px auto;
   word-break: break-all;
 `;
@@ -48,7 +48,7 @@ const Grid = ({ users, setUsers, setOnEdit }) => {
 
   const handleDelete = async (id) => {
     await axios
-      .delete("http://localhost:8800/" + id)
+      .delete("http://localhost:6789/api/user/" + id)
       .then(({ data }) => {
         const newArray = users.filter((user) => user.id !== id);
 
